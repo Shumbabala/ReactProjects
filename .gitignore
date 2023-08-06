@@ -1,0 +1,10 @@
+# ignore these individual files in root directory
+Git&GitHub CrashCourse TimeStamps.txt
+next-gen-js-summary.pdf
+
+# ignore all folders of .vscode type (project workspace config folder)
+/.vscode
+
+# ignore node_modules folder (react project config folder)
+/.node_modules
+
