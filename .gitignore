@@ -9,4 +9,4 @@ next-gen-js-summary.pdf
 node_modules/
 
 # ignore all project specific JSON dependency files
-*.json
+**/ReactBeginnerProject2/*.json
