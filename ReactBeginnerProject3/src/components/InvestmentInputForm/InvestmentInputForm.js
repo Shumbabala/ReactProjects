@@ -3,19 +3,20 @@ import "./InvestmentInputForm.css";
 
 //component imports
 import StartingInputForm from "../StartingInputForm/StartingInputForm";
+import InvestmentSpecsForm from "../InvestmentSpecsForm/InvestmentSpecsForm";
 import { useState } from "react";
 
 export default function InvestmentInputForm(props) {
   const [userInput, setUserInput] = useState({});
-  const [reset, setReset] = useState(true);
 
   //component logic goes here
   function StartingInputFormChangeHandler(startingInputData) {
+    console.log(startingInputData);
     //add "Current Savings" & "Yearly Savings" values to "userInput" object props
     setUserInput({
       ...userInput,
-      CS: startingInputData.currentSavings,
-      YS: startingInputData.yearlySavings,
+      /*Current Savings*/ CS: startingInputData.currentSavings,
+      /*Yearly Savings*/ YS: startingInputData.yearlySavings,
     });
   }
 
@@ -23,35 +24,48 @@ export default function InvestmentInputForm(props) {
     //add "ExpectedInterest" & "InvestmentDuration" values to "userInput" object props
     setUserInput({
       ...userInput,
-      EI: investmentInputData.expectedInterest,
-      ID: investmentInputData.investmentDuration,
+      /*Expected Interest*/ EI: investmentInputData.expectedInterest,
+      /*Investment Duration*/ ID: investmentInputData.investmentDuration,
     });
   }
 
   function resetButtonClickHandler() {
-    //change reset value to opposite value
-    setReset((prevReset) => !prevReset);
+    //alert parent component (App.js) to switch reset value
+    props.onReset();
+  }
+
+  function submitHandler(event) {
+    event.preventDefault();
+    props.onSubmit(userInput);
   }
 
   //rendering logic (JSX) goes here
   return (
-    <form className="form">
+    <form className="form" onSubmit={submitHandler}>
       <StartingInputForm
         onStartingInputFormChange={StartingInputFormChangeHandler}
-        reset={reset}
+        reset={props.currReset}
       />
       <InvestmentSpecsForm
         onInvestmentSpecsFormChange={InvestmentSpecsFormChangeHandler}
+        reset={props.currReset}
       />
       <p className="actions">
         <button
           type="reset"
           className="buttonAlt"
+          /*let's reset form info uppon click*/
           onClick={resetButtonClickHandler}
         >
           Reset
         </button>
-        <button type="submit" className="button">
+        <button
+          type="submit"
+          className="button"
+          /*when submitting we also
+        want to reset form info*/
+          onClick={resetButtonClickHandler}
+        >
           Calculate
         </button>
       </p>
