@@ -9,9 +9,12 @@ import { useState } from "react";
 export default function InvestmentInputForm(props) {
   const [userInput, setUserInput] = useState({});
 
+  //state to warn child components about missing input fields
+  const [missing, setMissing] = useState(false);
+
   //component logic goes here
   function StartingInputFormChangeHandler(startingInputData) {
-    console.log(startingInputData);
+    //console.log(startingInputData);
     //add "Current Savings" & "Yearly Savings" values to "userInput" object props
     setUserInput({
       ...userInput,
@@ -36,7 +39,16 @@ export default function InvestmentInputForm(props) {
 
   function submitHandler(event) {
     event.preventDefault();
-    props.onSubmit(userInput);
+
+    //if userInput is empty, alert user by turning input fields red
+    if (userInput.CS && userInput.YS && userInput.EI && userInput.ID) {
+      props.onSubmit(userInput);
+      //reset's been clicked, so we must empty userInput state from prior data
+      setUserInput({});
+      setMissing(false);
+    } else {
+      setMissing(true);
+    }
   }
 
   //rendering logic (JSX) goes here
@@ -45,10 +57,12 @@ export default function InvestmentInputForm(props) {
       <StartingInputForm
         onStartingInputFormChange={StartingInputFormChangeHandler}
         reset={props.currReset}
+        missing={missing}
       />
       <InvestmentSpecsForm
         onInvestmentSpecsFormChange={InvestmentSpecsFormChangeHandler}
         reset={props.currReset}
+        missing={missing}
       />
       <p className="actions">
         <button

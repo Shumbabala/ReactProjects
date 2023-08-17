@@ -22,30 +22,44 @@ export default function InvestmentSpecsForm(props) {
 
   //component logic goes here
   function inputChangeHandler(event) {
+    let updatedInvestmentData;
+
+    //variables to allow for input form syntax checking
+    const eventInput = event.target.value;
+    let newEventInput = "";
+
+    //application bugs
+    if (eventInput.charAt(0) === "0") {
+      newEventInput = eventInput.slice(1);
+    } else {
+      newEventInput = eventInput;
+    }
+
     switch (event.target.id) {
       case "expected-return":
-        //maybe might have to do: setInvestmentData([...investmentData, expectedInterest: event.target.value])
-        setInvestmentData({
+        updatedInvestmentData = {
           ...investmentData,
-          expectedInterest: event.target.value,
-        });
+          expectedInterest: newEventInput,
+        };
         break;
       case "duration":
-        setInvestmentData({
+        updatedInvestmentData = {
           ...investmentData,
-          investmentDuration: event.target.value,
-        });
+          investmentDuration: newEventInput,
+        };
         break;
       default:
     }
-    if (!event.target.value) {
-      setAux(false);
-    } else {
+    setInvestmentData(updatedInvestmentData);
+
+    if ("" != newEventInput) {
       setAux(true);
+    } else {
+      setAux(false);
     }
 
     //update parent component with new entered data
-    props.onInvestmentSpecsFormChange(investmentData);
+    props.onInvestmentSpecsFormChange(updatedInvestmentData);
   }
   //component return JSX content goes here
   return (
@@ -60,6 +74,11 @@ export default function InvestmentSpecsForm(props) {
           min="0"
           onChange={inputChangeHandler}
           onClick={() => setAux(true)}
+          style={
+            props.missing
+              ? { border: "1px solid red" }
+              : { border: "1px solid #76c0ae" }
+          }
           required
         />
       </p>
@@ -73,6 +92,11 @@ export default function InvestmentSpecsForm(props) {
           min="0"
           onChange={inputChangeHandler}
           onClick={() => setAux(true)}
+          style={
+            props.missing
+              ? { border: "1px solid red" }
+              : { border: "1px solid #76c0ae" }
+          }
           required
         />
       </p>

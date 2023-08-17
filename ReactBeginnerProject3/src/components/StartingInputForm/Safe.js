@@ -9,7 +9,6 @@ export default function StartingInputForm(props) {
     yearlySavings: NaN,
   });
   //used to maintain state synchronization between parent components
-  //(only used to tell whether reset button has been clicked)
   const [reset, setReset] = useState(false);
   //used for setting the visual value in input field
   const [aux, setAux] = useState(false);
@@ -22,48 +21,31 @@ export default function StartingInputForm(props) {
   }
 
   //component logic goes here
-  //when "event.target.value" has a leading 0, remove it first, then update
   function inputChangeHandler(event) {
-    let updatedSavingsData;
-
-    //variables to allow for input form syntax checking
-    const eventInput = event.target.value;
-    let newEventInput = "";
-
-    //application bugs
-    if (eventInput.charAt(0) === "0") {
-      newEventInput = eventInput.slice(1);
-    } else {
-      newEventInput = eventInput;
-    }
-
     switch (event.target.id) {
       case "current-savings":
-        updatedSavingsData = {
+        //maybe might have to do: setSavingsData([...savingsData, currentSavings: event.target.value])
+        setSavingsData({
           ...savingsData,
-          currentSavings: newEventInput,
-        };
+          currentSavings: event.target.value,
+        });
         break;
       case "yearly-contribution":
-        updatedSavingsData = {
-          ...savingsData,
-          yearlySavings: newEventInput,
-        };
+        setSavingsData({ ...savingsData, yearlySavings: event.target.value });
         break;
       default:
-        break;
     }
-    setSavingsData(updatedSavingsData);
-
-    if ("" != newEventInput) {
+    if ("" != event.target.value) {
       setAux(true);
     } else {
       setAux(false);
     }
 
-    props.onStartingInputFormChange(updatedSavingsData);
+    //update parent component (InvestmentInputForm.js) with new entered data
+    props.onStartingInputFormChange(savingsData);
+    //console.log(savingsData);
   }
-  console.log(props.missing);
+
   //user will input "Current Savings" & "Yearly Savings" number inputs, which will
   //then be required to be passed onto its parent components for further processing
   //rendering logic (JSX) goes here
@@ -74,17 +56,11 @@ export default function StartingInputForm(props) {
         <input
           type="number"
           id="current-savings"
-          /*shown value depends on "aux" parameter*/
+          /*shown value depends on "reset" parameter*/
           value={!aux ? 0 : savingsData.currentSavings}
           min="0"
           onChange={inputChangeHandler}
           onClick={() => setAux(true)}
-          /*missing input field validation*/
-          style={
-            props.missing
-              ? { border: "1px solid red" }
-              : { border: "1px solid #76c0ae" }
-          }
           required
         />
       </p>
@@ -93,17 +69,11 @@ export default function StartingInputForm(props) {
         <input
           type="number"
           id="yearly-contribution"
-          /*shown value depends on "aux" parameter*/
+          /*shown value depends on "reset" parameter*/
           value={!aux ? 0 : savingsData.yearlySavings}
           min="0"
           onChange={inputChangeHandler}
           onClick={() => setAux(true)}
-          /*missing input field validation*/
-          style={
-            props.missing
-              ? { border: "1px solid red" }
-              : { border: "1px solid #76c0ae" }
-          }
           required
         />
       </p>

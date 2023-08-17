@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&family=Roboto+Condensed:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&family=Roboto+Condensed:wght@400;700&display=swap");
 
 * {
   box-sizing: border-box;
@@ -6,7 +6,7 @@
 
 body {
   margin: 0;
-  font-family: 'Quicksand', sans-serif;
+  font-family: "Quicksand", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   /* background-color: #242a28; */
@@ -19,7 +19,6 @@ body {
   margin: 3rem auto;
 }
 
-
 .header img {
   width: 5rem;
   height: 5rem;
@@ -28,5 +27,30 @@ body {
 }
 
 .header h1 {
-  font-size: 1.5rem;
+  position: relative;
+  text-align: center;
+  padding: 10px 0;
+
+  font-size: calc(1em + 1vw);
+  white-space: nowrap;
+
+  /* background: linear-gradient( 92deg, #95d7e3, #eb76ff ); */
+  background: -webkit-linear-gradient(92deg, #95d7e3, #eb76ff);
+  background-size: 600vw 600vw;
+
+  /* make sure to put these after the background property */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: textAnimate 5s linear infinite alternate;
+
+  @keyframes textAnimate {
+    from {
+      filter: hue-rotate(0deg);
+      background-position-x: 0%;
+    }
+    to {
+      filter: hue-rotate(360deg);
+      background-position-x: 600vw;
+    }
+  }
 }
