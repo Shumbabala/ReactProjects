@@ -10,3 +10,6 @@ node_modules/
 
 # ignore all project specific JSON dependency files
 **/ReactBeginnerProject2/*.json
+
+# ignore all files with json extension
+*.json
