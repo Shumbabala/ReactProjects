@@ -18,7 +18,7 @@ function App() {
   //newUserInput contains 2 field -> Username & Age
   function UserChangeHandler(newUserInput) {
     //update App.js (parent) user data (UsersList forwarding)
-    setUserInput({ ...userInput, newUserInput });
+    setUserInput({ newUserInput });
     //reset boolean
     if (userAdded) {
       setUserAdded(false);

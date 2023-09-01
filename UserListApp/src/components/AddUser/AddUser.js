@@ -1,6 +1,7 @@
 import styles from "./AddUser.module.css";
 
 import Button from "../Button/Button";
+import Card from "../UI/Card";
 
 import { useState } from "react";
 
@@ -13,8 +14,8 @@ export default function AddUser(props) {
 
   //if "Add User" button was clicked (passed from parent (App.js))
   if (props.UserAdded) {
+    //reset fields
     setBlank(true);
-    //reset object
     setUserInput({});
   }
 
@@ -43,38 +44,40 @@ export default function AddUser(props) {
 
   //maybe add an onClick prop to inputs
   return (
-    <form className={styles.input} onSubmit={props.onUserAdd}>
-      <div>
-        {/*username field*/}
-        <label htmlFor="username">
-          Username
-          <br />
-          <input
-            name="username"
-            type="text"
-            value={blank ? "" : userInput.username}
-            onChange={inputChangeHandler}
-            maxLength="50"
-            required
-          ></input>
-          <br />
-        </label>
-        {/*password field*/}
-        <label htmlFor="age">
-          Age
-          <br />
-          <input
-            type="number"
-            name="age"
-            value={blank ? "" : userInput.password}
-            onChange={inputChangeHandler}
-            maxLength="3"
-            required
-          ></input>
-          <br />
-        </label>
-      </div>
-      <Button type="submit">Add User</Button>
-    </form>
+    <Card className={styles.input}>
+      <form onSubmit={props.onUserAdd}>
+        <div>
+          {/*username field*/}
+          <label htmlFor="username">
+            Username
+            <br />
+            <input
+              name="username"
+              type="text"
+              value={blank ? "" : userInput.username}
+              onChange={inputChangeHandler}
+              maxLength="50"
+              required
+            ></input>
+            <br />
+          </label>
+          {/*password field*/}
+          <label htmlFor="age">
+            Age
+            <br />
+            <input
+              type="number"
+              name="age"
+              value={blank ? "" : userInput.password}
+              onChange={inputChangeHandler}
+              maxLength="3"
+              required
+            ></input>
+            <br />
+          </label>
+        </div>
+        <Button type="submit">Add User</Button>
+      </form>
+    </Card>
   );
 }
