@@ -29,7 +29,10 @@ function App() {
     //add user button has been clicked, validate input fields and take action
     //check whether input fields are valid
     event.preventDefault();
-    if (userInput.age <= 0 || usersList.includes(userInput)) {
+    const user = usersList.filter(
+      (user) => user.username === userInput.username
+    );
+    if (userInput.age <= 0 || user) {
       //render modal component
       setShowErr(true);
     } else {

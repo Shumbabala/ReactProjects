@@ -74,7 +74,9 @@ export default function AddUser(props) {
           <br />
         </label>
       </div>
-      <Button type="submit">Add User</Button>
+      <Button type="submit" clickHandler={props.onUserAdd}>
+        Add User
+      </Button>
     </form>
   );
 }
