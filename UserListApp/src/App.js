@@ -5,12 +5,12 @@ import ErrorModal from "./components/UI/ErrorModal";
 import UsersList from "./components/UsersList/UsersList";
 import Button from "./components/Button/Button";
 
+//constants
 const ModalTitle = "An error ocurred";
 const ModalContent = "Input fields incorrect!";
 
 function App() {
   //state management
-  const [userAdded, setUserAdded] = useState(false);
   const [userInput, setUserInput] = useState({});
   const [showErr, setShowErr] = useState(false);
   const [usersList, setUsersList] = useState([]);
@@ -18,30 +18,30 @@ function App() {
   //newUserInput contains 2 field -> Username & Age
   function UserChangeHandler(newUserInput) {
     //update App.js (parent) user data (UsersList forwarding)
-    setUserInput({ newUserInput });
-    //reset boolean
-    if (userAdded) {
-      setUserAdded(false);
-    }
+    setUserInput({ username: newUserInput.username, age: newUserInput.age });
   }
 
-  function addUserHandler(event) {
+  function addUserHandler() {
     //add user button has been clicked, validate input fields and take action
     //check whether input fields are valid
-    event.preventDefault();
     const user = usersList.filter(
-      (user) => user.username === userInput.username
+      (user) =>
+        user.username === userInput.username && user.age === userInput.age
     );
-    if (userInput.age <= 0 || user) {
+    if (userInput.age <= 0 || user.length !== 0) {
       //render modal component
       setShowErr(true);
+      console.log("setShowErr given true");
     } else {
       //add userInput object to list of displayed users
-      setUsersList((prevList) =>
-        prevList.unshift({ userInput, id: Math.random().toString() })
-      );
-      //alert child components of added user (reset input field contents)
-      setUserAdded(true);
+      setUsersList((prevList) => [
+        ...prevList,
+        {
+          username: userInput.username,
+          age: userInput.age,
+          id: Math.random().toString(),
+        },
+      ]);
       //reset current userInput for next incoming input
       setUserInput({});
     }
@@ -49,13 +49,16 @@ function App() {
 
   function deleteUserHandler(event) {
     //update the state of this list accordingly
-    setUsersList(usersList.filter((users) => users.id !== event.target.id)); //<- MAKE SURE filter() RETURNS AN ARRAY!!!
+    setUsersList((prevList) =>
+      prevList.filter((user) => user.id !== event.target.id)
+    );
   }
 
   function modalSelfDestruct() {
     //remove overlaying modal
     setShowErr(false);
   }
+
   return (
     <div>
       {showErr && (
@@ -63,14 +66,14 @@ function App() {
           heading={ModalTitle}
           content={ModalContent}
           clickHandler={modalSelfDestruct}
-          children={<Button type="submit">Okay</Button>}
+          children={
+            <Button type="submit" clickHandler={modalSelfDestruct}>
+              Okay
+            </Button>
+          }
         />
       )}
-      <AddUser
-        UserAdded={userAdded}
-        onAddUserChange={UserChangeHandler}
-        onUserAdd={addUserHandler}
-      />
+      <AddUser onAddUserChange={UserChangeHandler} onUserAdd={addUserHandler} />
       <UsersList users={usersList} onUserDelete={deleteUserHandler} />
     </div>
   );
