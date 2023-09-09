@@ -13,3 +13,5 @@ node_modules/
 
 # ignore all files with json extension
 *.json
+
+.DS_Store
