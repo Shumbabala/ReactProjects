@@ -5,7 +5,7 @@ export default function Button(props) {
     <button
       className={styles.button}
       type={props.type}
-      onClick={props.clickHandler || ""}
+      onClick={props.clickHandler}
     >
       {props.children}
     </button>
