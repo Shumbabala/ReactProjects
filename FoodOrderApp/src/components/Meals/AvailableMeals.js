@@ -31,16 +31,19 @@ const DUMMY_MEALS = [
   },
 ];
 
-const AvailableMeals = () => {
+function AvailableMeals(props) {
   const mealsList = DUMMY_MEALS.map((meal) => (
     <MealItem
+      id={meal.id}
       key={meal.id}
       name={meal.name}
       description={meal.description}
       price={meal.price}
-    >
-      {meal.name}
-    </MealItem>
+      min="0"
+      max="5"
+      step="1"
+      defaultValue="0"
+    ></MealItem>
   ));
 
   return (
@@ -50,6 +53,6 @@ const AvailableMeals = () => {
       </Card>
     </section>
   );
-};
+}
 
 export default AvailableMeals;

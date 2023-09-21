@@ -1,15 +1,15 @@
-import { Fragment } from "react";
+import { Fragment, forwardRef } from "react";
 
 import MealsSummary from "./MealsSummary";
 import AvailableMeals from "./AvailableMeals";
 
-const Meals = () => {
+const Meals = forwardRef(function Meals(props, ref) {
   return (
     <Fragment>
       <MealsSummary />
-      <AvailableMeals />
+      <AvailableMeals ref={ref}/>
     </Fragment>
   );
-};
+});
 
 export default Meals;
