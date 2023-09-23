@@ -12,7 +12,7 @@ export default function Cart(props) {
   const context = useContext(mealsContext);
 
   //context destructuring
-  const { totalAmount, items, addItem, removeItem } = context;
+  const { totalAmount, items, addItem, removeItem, deleteItem } = context;
   const totalAmountInteger = +totalAmount.toFixed(2);
 
   const totalAmountInt = `$${totalAmountInteger}`;
@@ -24,14 +24,15 @@ export default function Cart(props) {
       <div className={styles.backdrop} onClick={props.onClick} />
       <div className={styles.modal}>
         <ul>
-          {items.map(({ name, id, amount, price }) => (
+          {items.map((item) => (
             <CartItem
-              name={name}
-              price={price}
-              amount={amount}
-              key={id}
-              onAdd={addItem.bind(arguments)}
-              onRemove={removeItem.bind(null, id)}
+              name={item.name}
+              price={item.price}
+              amount={item.amount}
+              key={item.id}
+              onAdd={addItem.bind(null, item)}
+              onRemove={removeItem.bind(null, item.id)}
+              onDelete={deleteItem.bind(null, item.id)}
             />
           ))}
         </ul>
