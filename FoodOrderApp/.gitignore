@@ -24,4 +24,5 @@ yarn-error.log*
 
 README.md
 
-#random msg
+package-lock.json
+package.json
